@@ -1,5 +1,10 @@
 #include <stdlib.h>
+#include <unistd.h>
+#ifdef __APPLE__
 #include <GLUT/glut.h>
+#else
+#include <GL/glut.h>
+#endif
 
 #include "../lbfont.h"
 
@@ -64,7 +69,19 @@ void display(void) {
 	}
 }
 
+#ifdef __APPLE__
+#define DEFAULT_FONT "/Library/Fonts/Arial.ttf"
+#else
+#define DEFAULT_FONT "arial.ttf"
+#endif
+
 int main(int argc, char** argv) {
+    const char* font = argc > 1 ? argv[1] : DEFAULT_FONT;
+    if (access(font, R_OK) != 0) {
+        fprintf(stderr, "error: can't read font file %s\n", font);
+        return 1;
+    }
+
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
 	glutInitWindowPosition(600,0);
@@ -77,7 +94,7 @@ int main(int argc, char** argv) {
     glutIdleFunc(idle);
 	glutDisplayFunc(display);
 	
-	initLBFont("/Library/Fonts/Arial.ttf", &f);
+	initLBFont("arial.ttf", &f);
 	
     glutMainLoop();
 }

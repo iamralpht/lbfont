@@ -11,13 +11,18 @@ env.Append(
 if sys.platform == 'darwin':
 	env.Append(FRAMEWORKS= ['OpenGL','GLUT'])
 else:
-	env.Append(LIBS=['gl','glut'])
+	env.Append(LIBS=['GL','GLU','glut','freetype'])
 
 	
 	
 ## TARGEST #############################################
 lbfont = env.Library(['lbfont.c'])
-env.Program( ['examples/example.c', lbfont, 'freetype-2.4.2/objs/.libs/libfreetype.a'])
+program = ['examples/example.c', lbfont];
+
+if sys.platform == 'darwin':
+    program.Append('freetype-2.4.2/objs/.libs/libfreetype.a')
+
+env.Program(program)
 
 
 
