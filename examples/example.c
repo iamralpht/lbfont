@@ -23,10 +23,10 @@ const char* renderString = "8pqO*";
 
 void mouseclick(int button, int state, GLint x, GLint y)
 {
-    fprintf(stderr, "button %d\n", button);
+    float quanta = (glutGetModifiers() & GLUT_ACTIVE_SHIFT) ? 0.1f : 0.01f;
     switch (button) {
-    case 3: scale += 0.01f; break;
-    case 4: scale -= 0.01f; break;
+    case 3: scale += quanta; break;
+    case 4: scale -= quanta; break;
     }
     glutPostRedisplay();
 
