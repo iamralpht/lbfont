@@ -94,7 +94,7 @@ int main(int argc, char** argv) {
     glutIdleFunc(idle);
 	glutDisplayFunc(display);
 	
-	initLBFont("arial.ttf", &f);
+	initLBFont(font, &f);
 	
     glutMainLoop();
 }
