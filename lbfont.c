@@ -125,7 +125,7 @@ void buildCurveData(LBGlyph* g){
 
 		GLubyte before = (i-1);
 		GLubyte after = (i+1);
-		if (after == g->contours[contour_index]){
+		if (after == g->contours[contour_index] && contour_index){
 			after = g->contours[contour_index-1];
 		}
 		
@@ -211,7 +211,7 @@ LBGlyph* initLBGlyph(char c, LBFont* font){
 	
 	//allocate memory for curve vertices and compute border triangles/texture coords
 	g->inside_curve_triangles  = calloc(g->num_inside_ctrl_points * 3, sizeof(Vertex));
-	g->outside_curve_triangles = calloc(100, sizeof(Vertex));
+	g->outside_curve_triangles = calloc(1024, sizeof(Vertex));
 	buildCurveData(g);
 	
 	return g;

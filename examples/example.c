@@ -16,6 +16,8 @@ float mouse_x=0.0, mouse_y=0.0;
 
 LBFont f;
 
+const char* renderString = "8pqO*";
+
 
 
 void mousemove(GLint x,GLint y)
@@ -56,7 +58,7 @@ void display(void) {
 	glPushMatrix();
 	//glScalef(scale, scale,.5);
 	glRotatef(mouse_x*360, 0,0,1);
-	renderLBFontString("pymt",&f);
+	renderLBFontString(renderString,&f);
 	glPopMatrix();
 	glutSwapBuffers();
 	
@@ -81,6 +83,7 @@ int main(int argc, char** argv) {
         fprintf(stderr, "error: can't read font file %s\n", font);
         return 1;
     }
+    if (argc > 2) renderString = argv[2];
 
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
