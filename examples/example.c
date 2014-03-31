@@ -13,6 +13,7 @@ int frame=0,time=0,timebase=0;
 int window_width=0, window_height=0;
 
 float mouse_x=0.0, mouse_y=0.0;
+float scale = 1.0;
 
 LBFont f;
 
@@ -20,8 +21,17 @@ const char* renderString = "8pqO*";
 
 
 
-void mousemove(GLint x,GLint y)
+void mouseclick(int button, int state, GLint x, GLint y)
 {
+    fprintf(stderr, "button %d\n", button);
+    switch (button) {
+    case 3: scale += 0.01f; break;
+    case 4: scale -= 0.01f; break;
+    }
+    glutPostRedisplay();
+
+}
+void mousemove(GLint x, GLint y) {
 	mouse_x = x/(float)window_width;
 	mouse_y = x/(float)window_height;
 	glutPostRedisplay();
@@ -56,7 +66,7 @@ void display(void) {
 	glClearColor(.5,.5,.5,1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glPushMatrix();
-	//glScalef(scale, scale,.5);
+	glScalef(scale, scale,.5);
 	glRotatef(mouse_x*360, 0,0,1);
 	renderLBFontString(renderString,&f);
 	glPopMatrix();
@@ -91,6 +101,7 @@ int main(int argc, char** argv) {
     glutInitWindowSize(800, 800);
     glutCreateWindow("LBFont Example");
     
+	glutMouseFunc(mouseclick);
 	glutMotionFunc(mousemove);
 	glutKeyboardFunc(keyboard);
 	glutReshapeFunc(reshape);
